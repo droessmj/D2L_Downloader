@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+
+  "name": "D2L File Fetch",
+  "description": "This extension downloads all available course content.",
+  "version": "0.1",
+
+  "permissions": [
+          "tabs"
+        ],
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  }
+}
