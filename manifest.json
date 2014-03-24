@@ -5,6 +5,14 @@
   "description": "This extension downloads all available course content.",
   "version": "0.1",
 
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+
   "permissions": [
           "tabs"
         ],
