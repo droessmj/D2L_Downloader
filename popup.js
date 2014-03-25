@@ -9,21 +9,23 @@ var d2lfetch = {
     { 
       if(tab[0].url != homeURL){
         chrome.tabs.create({url: homeURL}, function(tab){
+          //once the new tab is open
+          setTimeout(function(){alert("Opening homepage")}, 5000);
+          //open the classes
+          alert("D2L Homepage");
           d2lfetch.openClasses();
         });
-
       //if function ending
       }else{
         d2lfetch.openClasses();
       }
-
     });
-
   //end fetch
   },
 
   openClasses: function() { 
-    chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.getSelected(null, function(tab)  
+    {
       chrome.tabs.sendRequest(tab.id, {method: "getHTML"}, function(response) {
         var allHTML = '';
         if(response.method=="getHTML"){
@@ -52,17 +54,25 @@ var d2lfetch = {
             {
               //for each tab, navigate to content -> download
               //alert();
-              //$.each(tab, function(key, value){
-              //});
+              $.each(tab, function(key, value){
+                d2lfetch.snagContent(value);
+              });
             });
           });
         });
+
       });
     });
+    
+  //end openClasses
+  },
+
+  snagContent: function(tab){
+    //dl content from a passed in tab
+    console.log(tab);
   },
 
 };
-
 
 // Run our kitten generation script as soon as the document's DOM is ready.
 document.addEventListener('DOMContentLoaded', function () {
