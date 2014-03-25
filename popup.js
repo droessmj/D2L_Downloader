@@ -1,13 +1,15 @@
 var homeURL = 'https://uwec.courses.wisconsin.edu/d2l/home';
+var baseURL = 'https://uwec.courses.wisconsin.edu/';
 
 var d2lfetch = {
 
   fetch: function() {
+
     chrome.tabs.query({currentWindow:true,active:true}, function(tab) 
     { 
       if(tab[0].url != homeURL){
         chrome.tabs.create({url: homeURL});
-        //alert("Redirected to your D2L homepage");
+        alert("Redirected to your D2L homepage");
       }
     });
 
@@ -26,14 +28,21 @@ var d2lfetch = {
             $(element).find('.d2l-placeholder').find('a').each(function() {
               //alert();
               var content = $(this).attr('href');
-              if(content != "javascript:void(0);"){
-                console.log($(this).attr('href'));
+              if( content != "javascript:void(0);" && content.indexOf("ou=") != -1 ){
                 links.push($(this).attr('href'));
               }
             });
-                        
+
+            //foreach class link
+            $.each(links, function(key, value){
+              chrome.tabs.create({url: baseURL+value});
+            });
         });
     });
+
+    //a tab should be open for each active classes
+    //for each tab, navigate to content -> download
+
   }
 
 
