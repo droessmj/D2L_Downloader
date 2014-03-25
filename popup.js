@@ -12,13 +12,28 @@ var d2lfetch = {
     });
 
     chrome.tabs.getSelected(null, function(tab) {
-      chrome.tabs.sendRequest(tab.id, {method: "getHTML"}, function(response) {
-          if(response.method="getHTML"){               
-              alert(response.html);  
-        }
-      });
+        chrome.tabs.sendRequest(tab.id, {method: "getHTML"}, function(response) {
+            var allHTML = '';
+            if(response.method=="getHTML"){
+                allHTML = response.data;
+            }
+            
+            var element = document.createElement( 'div' );
+            element.innerHTML = allHTML;
+
+            var links = [];
+
+            $(element).find('.d2l-placeholder').find('a').each(function() {
+              //alert();
+              var content = $(this).attr('href');
+              if(content != "javascript:void(0);"){
+                console.log($(this).attr('href'));
+                links.push($(this).attr('href'));
+              }
+            });
+                        
+        });
     });
-       
   }
 
 
@@ -30,3 +45,6 @@ var d2lfetch = {
 document.addEventListener('DOMContentLoaded', function () {
   d2lfetch.fetch();
 });
+
+
+//class="d2l-placeholder d2l-placeholder-live"
